@@ -1,13 +1,12 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-  </nav>
+  <NavigationBar />
   <router-view/>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
 import { userStore } from '@/store/user';
+import NavigationBar from './components/NavigationBar.vue';
 // import { computed, ref } from 'vue';
 
 const router = useRouter();
