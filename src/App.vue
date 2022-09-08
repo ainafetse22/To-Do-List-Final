@@ -4,24 +4,24 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import { userStore } from '@/store/user';
 import NavigationBar from './components/NavigationBar.vue';
 // import { computed, ref } from 'vue';
 
-const router = useRouter();
+// const router = useRouter();
 const user = userStore();
 
 async function isLog() {
   try {
     await user.fetchUser();// here we call fetch user
-    if (!user.currentUser) {
-      // redirect them to logout if the user is not there
-      router.push({ path: '/auth' });
-    } else {
-      // continue to dashboard
-      router.push({ path: '/' });
-    }
+    // if (!user.currentUser) {
+    //   // redirect them to logout if the user is not there
+    //   router.push({ path: '/auth' });
+    // } else {
+    //   // continue to dashboard
+    //   router.push({ path: '/' });
+    // }
   } catch (e) {
     console.error(e);
   }

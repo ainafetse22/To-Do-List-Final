@@ -1,21 +1,22 @@
 <template>
   <div>
-    <SignUp/>
     <RegisterForm/>
     <button @click="callSignUp">SignUp</button>
-    <button @click="callLogOut">LogOut</button>
+    <LogIn/>
+    <button @click="callLogIn">LogIn</button>
+    <br>
   </div>
 </template>
 
 <script setup>
 import { userStore } from '@/store/user';
-import { useRouter } from 'vue-router';
-import { watch } from 'vue';
+// import { useRouter } from 'vue-router';
+// import { watch } from 'vue';
 import RegisterForm from '../components/RegisterForm.vue';
-import SignUp from '../components/SignUp.vue';
+import LogIn from '../components/LogIn.vue';
 
 const userInfo = userStore();
-const router = useRouter();
+// const = useRouter();
 
 function callSignUp() {
   const userData = {
@@ -24,15 +25,20 @@ function callSignUp() {
   };
   userInfo.signUp(userData.email, userData.password);
 }
-function callLogOut() {
-  userInfo.LogOut();
+
+function callLogIn() {
+  const userData = {
+    email: 'zestefania.amundaray@gmail.com',
+    password: '123456',
+  };
+  userInfo.LogInEmail(userData.email, userData.password);
 }
-watch(userInfo, () => {
-  console.log('watch user');
-  if (userInfo.currentUser) {
-    router.push({ path: '/' });
-  }
-});
+
+// watch(userInfo, () => {
+//   if (userInfo.currentUser) {
+//     router.push({ path: '/' });
+//   }
+// });
 
 // function checkEmail() {
 //   const email = document.getElementById('txtEmail');
@@ -51,10 +57,7 @@ watch(userInfo, () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
-}
-.signup-form {
-  width: 450px;
 }
 </style>

@@ -8,16 +8,26 @@ export const taskStore = defineStore(
   'tasks',
   () => {
     const currentTask = ref([]);
-    //   {
-    //     tasks: null,
-    //  },
-    const fetchTasks = async () => {
-      const { data: tasks } = await supabase.from('tasks').select('*').order('id', { ascending: false });
-      if (tasks) currentTask.value = tasks;
+    const fetchTasks = async (userId) => {
+      const { data, error } = await supabase.from('tasks').select('*').filter('user_id', 'in', userId).order('id', { ascending: false });
+      // console.log(`fetch ${data}`);
+      if (data) currentTask.value = data;
+      if (error) throw error;
+    };
+    const addTask = async (userId, title, description) => {
+      const { error } = await supabase
+        .from('tasks').insert([{
+          user_id: userId,
+          title,
+          description,
+          // is_complete: isComplete,
+        }]);
+      if (error) throw error;
     };
     return {
       currentTask,
       fetchTasks,
+      addTask,
     };
   },
 );
