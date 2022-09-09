@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Task</h1>
-    <button>+</button>
+    <button @click="addWindow">+</button>
     <label for="task-name">
       <input v-model="newTask.Name" type="text" id="task-name" placeholder="Add task Name" />
     </label>
@@ -9,11 +9,14 @@
       <textarea v-model="newTask.Description" id="task-description" placeholder="Description...">
       </textarea>
     </label>
-    <button @click="AddTaskButton">ADD</button>
-    <button @click="RefreshTaskButton">Refresh</button>
+    <label for="checkbox">{{ checked }}
+      <input type="checkbox" id="complete" v-model="checked">
+    </label>
+    <button @click="modifyTaskButton(calledFrom)">Ok modify</button>
+    <button @click="refreshTaskButton">Refresh</button>
     <div v-for="task in taskInfo.currentTask" :key="task.id">
-      <TaskShow :task="task"></TaskShow>
-  </div>
+      <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,9 @@ import { userStore } from '@/store/user';
 import TaskShow from '@/components/TaskShow.vue';
 
 const newTask = ref({});
+const calledFrom = ref('add');
+const defineTask = {};
+let taskIdreturn = {};
 const taskInfo = reactive(taskStore());
 const userInfo = userStore();
 async function refreshTask() {
@@ -35,19 +41,48 @@ async function refreshTask() {
     console.log(e);
   }
 }
-async function AddTaskButton() {
-  try {
-    // console.log(userInfo.currentUser);
+function addWindow() {
+  calledFrom.value = 'add'; // tells the windows where is called from
+}
+async function modifyTaskButton(selectModifier) {
+  defineTask.Name = newTask.value.Name;
+  defineTask.Description = newTask.value.Description;
+  console.log(selectModifier);
+  if (selectModifier === 'add') {
+    defineTask.Complete = false;
+    try {
+      await taskInfo.addTask(userInfo.currentUser.id, defineTask);
+      refreshTask();
+    } catch (e) {
+      console.log(e);
+    }
+  } else if (selectModifier === 'edit') {
+    console.log('from edit');
+    defineTask.Complete = newTask.value.Complete;
+    console.log(defineTask);
+    try {
+      await taskInfo.editTask(userInfo.currentUser.id, taskIdreturn, defineTask);
+      refreshTask();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
 
-    await taskInfo.addTask(userInfo.currentUser.id, newTask.value.Name, newTask.value.Description);
+function refreshTaskButton() {
+  refreshTask();
+}
+function editTask(taskId) {
+  taskIdreturn = taskId;
+  calledFrom.value = 'edit'; // tells the windows where is called from
+}
+async function removeTask(taskId) {
+  try {
+    await taskInfo.removeTask(userInfo.currentUser.id, taskId);
     refreshTask();
-    // console.log(taskInfo.currentTask);
   } catch (e) {
     console.log(e);
   }
-}
-function RefreshTaskButton() {
-  refreshTask();
 }
 
 // refreshTask();//  on creation

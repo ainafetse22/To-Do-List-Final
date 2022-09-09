@@ -11,7 +11,6 @@
 <script setup>
 import { userStore } from '@/store/user';
 // import { useRouter } from 'vue-router';
-// import { watch } from 'vue';
 import RegisterForm from '../components/RegisterForm.vue';
 import LogIn from '../components/LogIn.vue';
 
