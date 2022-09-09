@@ -18,9 +18,9 @@ export const taskStore = defineStore(
       const { error } = await supabase
         .from('tasks').insert([{
           user_id: userId,
-          title: taskInfo.Name,
-          description: taskInfo.Description,
-          is_complete: taskInfo.Complete,
+          title: taskInfo.name,
+          description: taskInfo.description,
+          is_complete: taskInfo.complete,
         }]);
       if (error) throw error;
     };
@@ -32,9 +32,9 @@ export const taskStore = defineStore(
     const editTask = async (userId, taskId, taskInfo) => {
       const { error } = await supabase
         .from('tasks').update({
-          title: taskInfo.Name,
-          description: taskInfo.Description,
-          is_complete: taskInfo.Complete,
+          title: taskInfo.name,
+          description: taskInfo.description,
+          is_complete: taskInfo.complete,
         })
         .match({ id: taskId });
       if (error) throw error;

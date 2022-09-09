@@ -19,7 +19,7 @@ const props = defineProps({
 const emit = defineEmits(['editTask', 'removeTask']);
 
 const editTask = () => {
-  emit('editTask', props.task.id);
+  emit('editTask', props.task);
 };
 
 const removeTask = () => {
