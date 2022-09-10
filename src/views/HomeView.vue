@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <h1>Task</h1>
-    <h3>{{newTask.complete}}</h3>
     <button @click="addWindow">+</button>
     <label for="task-name">
       <input v-model="newTask.name" type="text" id="task-name" placeholder="Add task Name" />
@@ -18,6 +17,7 @@
     <div v-for="task in taskInfo.currentTask" :key="task.id">
       <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
     </div>
+    <datepicker v-model="picked" />
   </div>
 </template>
 
@@ -27,10 +27,12 @@ import { ref, reactive } from 'vue';
 import { taskStore } from '@/store/tasks';
 import { userStore } from '@/store/user';
 import TaskShow from '@/components/TaskShow.vue';
+import Datepicker from 'vue3-datepicker';
 
 const newTask = ref({});
 const calledFrom = ref('add');
 const defineTask = {};
+const picked = ref(new Date());
 // let taskIdreturn = {};
 const taskInfo = reactive(taskStore());
 const userInfo = userStore();
