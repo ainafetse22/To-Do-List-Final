@@ -1,9 +1,9 @@
 <template>
   <div class="task-show">
-    <h2>{{props.task.title}}</h2>
-    <h3>{{props.task.description}}</h3>
-    <h4>{{props.task.inserted_at}}</h4>
-    <h2>{{props.task.is_complete}}</h2>
+    <h2>{{task.title}}</h2>
+    <h3>{{task.description}}</h3>
+    <h4>{{task.inserted_at}}</h4>
+    <h2>{{task.is_complete}}</h2>
     <button @click="editTask">Edit</button>
     <button @click="removeTask">X</button>
   </div>

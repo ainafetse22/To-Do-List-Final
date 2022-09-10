@@ -18,10 +18,27 @@
         <input type="password" id="password-Confirm" required name="passwordConfirm" />
         Password Confirmation</label
       >
+      <button @click="callSignUp">SignUp</button>
+      <h3>Already Register?</h3>
+      <button @click="loginBtn">Log in</button>
     </form>
   </div>
 </template>
 
 <script setup>
+import { userStore } from '@/store/user';
+import { defineEmits } from 'vue';
 
+const userInfo = userStore();
+const emit = defineEmits(['loginBtn']);
+const loginBtn = () => {
+  emit('loginBtn');
+};
+function callSignUp() {
+  const userData = {
+    email: 'zestefania.amundaray@gmail.com',
+    password: '123456',
+  };
+  userInfo.signUp(userData.email, userData.password);
+}
 </script>
