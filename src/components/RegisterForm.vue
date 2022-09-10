@@ -6,8 +6,13 @@
       <input type="text" placeholder="Full Name" autocomplete="off" />
     </div> -->
     <form class="sign-form">
+      <label for="FullName">
+        <input type="text" placeholder="Full Name" autocomplete="off"
+              v-model="inputName" @keyup="validateNameInput" @blur="validateNameInput"/>
+      </label>
+        <h3 v-if="errorName">{{errorName}}</h3>
       <label for="email">
-        <input type="email" id="register-email" name="email" required  />
+        <input type="email" id="register-email" name="email" required />
         email</label
       >
       <label for="password">
@@ -27,10 +32,18 @@
 
 <script setup>
 import { userStore } from '@/store/user';
-import { defineEmits } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const userInfo = userStore();
 const emit = defineEmits(['loginBtn']);
+const inputName = ref('');
+const errorName = ref('');
+
+const validateNameInput = () => {
+  errorName.value = inputName.value === '' ? 'The input field is required' : '';
+  console.log('validation call');
+};
+
 const loginBtn = () => {
   emit('loginBtn');
 };

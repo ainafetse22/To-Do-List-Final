@@ -1,8 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link>  |
+    <router-link v-show="userInfo.currentUser" to="/">Home</router-link>  |
     <router-link v-show="!userInfo.currentUser" to="/auth">Sign Up/Login</router-link>
-    <button @click='userInfo.LogOut()'>  LogOut</button>
+    <button v-show="userInfo.currentUser" @click='userInfo.LogOut()'>  LogOut</button>
   </nav>
 </template>
 
