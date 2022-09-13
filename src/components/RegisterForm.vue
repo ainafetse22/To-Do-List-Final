@@ -5,31 +5,50 @@
       <i class="user icon"></i>
       <input type="text" placeholder="Full Name" autocomplete="off" />
     </div> -->
-    <form class="sign-form">
+    <form @submit.prevent class="sign-form">
       <label for="FullName">
-        <input type="text" placeholder="Full Name" autocomplete="off"
-              v-model="inputName" @keyup="validateNameInput" @blur="validateNameInput"/>
+        <input
+          type="text"
+          placeholder="Full Name"
+          autocomplete="off"
+          v-model="input.Name"
+        />
       </label>
-        <h4 v-if="errors.name">{{errors.name}}</h4>
+      <h4 v-if="errors.name">{{ errors.name }}</h4>
       <label for="email">
-        <input type="email" placeholder="Email" autocomplete="on"
-               v-model="inputEmail" @keyup="validateEmailInput" @blur="validateEmailInput"/>
+        <input
+          type="email"
+          placeholder="Email"
+          autocomplete="on"
+          v-model="input.Email"
+
+        />
       </label>
-        <h4 v-if="errors.email">{{errors.email}}</h4>
+      <h4 v-if="errors.email">{{ errors.email }}</h4>
 
       <label for="password">
-        <input type="password" placeholder="New Password" id="register-password"
-              v-model="inputPassword" @keyup="validatePasswordInput" @blur="validatePasswordInput"/>
+        <input
+          type="password"
+          placeholder="New Password"
+          id="register-password"
+          v-model="input.Password"
+
+        />
       </label>
-        <h4 v-if="errors.password">{{errors.password}}</h4>
+      <h4 v-if="errors.password">{{ errors.password }}</h4>
 
       <label for="passwordConfirmation">
-        <input type="password" id="password-Confirm" placeholder="Confirm your Password"
-              v-model="inputConfirmPass" @keyup="validatePassConfirm" @blur="validatePassConfirm"/>
-      </label>
-      <h4 v-if="errors.passwordConfirm">{{errors.passwordConfirm}}</h4>
+        <input
+          type="password"
+          id="password-Confirm"
+          placeholder="Confirm your Password"
+          v-model="input.ConfirmPass"
 
-      <button @click="callSignUp">SignUp</button>
+        />
+      </label>
+      <h4 v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</h4>
+
+      <button @click="callSignUp" :disabled="isSignupButtonDisabled">SignUp</button>
       <h3>Already Register?</h3>
       <button @click="loginBtn">Log in</button>
     </form>
@@ -38,15 +57,19 @@
 
 <script setup>
 import { userStore } from '@/store/user';
-import { ref, defineEmits } from 'vue';
+import {
+  defineEmits, computed, reactive, toRaw,
+} from 'vue';
 import useFormValidation from '../useFormValidation';
 
 const userInfo = userStore();
 const emit = defineEmits(['loginBtn']);
-const inputName = ref('');
-const inputEmail = ref('');
-const inputPassword = ref('');
-const inputConfirmPass = ref('');
+const input = reactive({
+  Name: '',
+  Email: '',
+  Password: '',
+  ConfirmPass: '',
+});
 const {
   validateNameField,
   validateEmailField,
@@ -56,18 +79,23 @@ const {
 } = useFormValidation();
 
 const validateNameInput = () => {
-  validateNameField('name', inputName.value);
+  validateNameField('name', input.Name);
 };
 const validateEmailInput = () => {
-  validateEmailField('email', inputEmail.value);
+  validateEmailField('email', input.Email);
 };
 const validatePasswordInput = () => {
-  validatePasswordField('password', inputPassword.value);
+  validatePasswordField('password', input.Password);
 };
 const validatePassConfirm = () => {
-  console.log(inputConfirmPass.value);
-  console.log(inputPassword.value);
-  confirmPasswordField('passwordConfirm', inputConfirmPass.value, inputPassword.value);
+  confirmPasswordField('passwordConfirm', input.ConfirmPass, input.Password);
+};
+
+const validateMethod = () => {
+  validateNameInput(); // ajustar
+  validateEmailInput();
+  validatePasswordInput();
+  validatePassConfirm();
 };
 
 const loginBtn = () => {
@@ -80,5 +108,20 @@ function callSignUp() {
   };
   userInfo.signUp(userData.email, userData.password);
 }
+const isSignupButtonDisabled = computed(() => {
+  validateMethod();
 
+  let disabled = true;
+  const destrucErrors = toRaw(errors);
+  if (input.Name && input.Email && input.Password && input.ConfirmPass) {
+    disabled = false;
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const key in destrucErrors) {
+      console.log(destrucErrors[key]);
+      if (destrucErrors[key]) { disabled = true; }
+    }
+    console.log(disabled);
+  }
+  return disabled;
+});
 </script>
