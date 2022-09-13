@@ -2,12 +2,12 @@
   <div class="field">
     <h1>Log In</h1>
     <form class="sign-form">
-      <label for="email">
-        <input type="email" id="email" name="email" required />
+      <label for="email-log">
+        <input type="email" name="email-log" />
         email</label
       >
       <label for="password">
-        <input type="password" id="password" required name="password" />
+        <input type="password" id="password" name="password" />
         Password</label
       >
       <button @click="callLogIn">LogIn</button>

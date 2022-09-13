@@ -10,19 +10,25 @@
         <input type="text" placeholder="Full Name" autocomplete="off"
               v-model="inputName" @keyup="validateNameInput" @blur="validateNameInput"/>
       </label>
-        <h3 v-if="errorName">{{errorName}}</h3>
+        <h4 v-if="errors.name">{{errors.name}}</h4>
       <label for="email">
-        <input type="email" id="register-email" name="email" required />
-        email</label
-      >
+        <input type="email" placeholder="Email" autocomplete="on"
+               v-model="inputEmail" @keyup="validateEmailInput" @blur="validateEmailInput"/>
+      </label>
+        <h4 v-if="errors.email">{{errors.email}}</h4>
+
       <label for="password">
-        <input type="password" id="register-password" required name="password" />
-        Password</label
-      >
+        <input type="password" placeholder="New Password" id="register-password"
+              v-model="inputPassword" @keyup="validatePasswordInput" @blur="validatePasswordInput"/>
+      </label>
+        <h4 v-if="errors.password">{{errors.password}}</h4>
+
       <label for="passwordConfirmation">
-        <input type="password" id="password-Confirm" required name="passwordConfirm" />
-        Password Confirmation</label
-      >
+        <input type="password" id="password-Confirm" placeholder="Confirm your Password"
+              v-model="inputConfirmPass" @keyup="validatePassConfirm" @blur="validatePassConfirm"/>
+      </label>
+      <h4 v-if="errors.passwordConfirm">{{errors.passwordConfirm}}</h4>
+
       <button @click="callSignUp">SignUp</button>
       <h3>Already Register?</h3>
       <button @click="loginBtn">Log in</button>
@@ -33,15 +39,35 @@
 <script setup>
 import { userStore } from '@/store/user';
 import { ref, defineEmits } from 'vue';
+import useFormValidation from '../useFormValidation';
 
 const userInfo = userStore();
 const emit = defineEmits(['loginBtn']);
 const inputName = ref('');
-const errorName = ref('');
+const inputEmail = ref('');
+const inputPassword = ref('');
+const inputConfirmPass = ref('');
+const {
+  validateNameField,
+  validateEmailField,
+  validatePasswordField,
+  confirmPasswordField,
+  errors,
+} = useFormValidation();
 
 const validateNameInput = () => {
-  errorName.value = inputName.value === '' ? 'The input field is required' : '';
-  console.log('validation call');
+  validateNameField('name', inputName.value);
+};
+const validateEmailInput = () => {
+  validateEmailField('email', inputEmail.value);
+};
+const validatePasswordInput = () => {
+  validatePasswordField('password', inputPassword.value);
+};
+const validatePassConfirm = () => {
+  console.log(inputConfirmPass.value);
+  console.log(inputPassword.value);
+  confirmPasswordField('passwordConfirm', inputConfirmPass.value, inputPassword.value);
 };
 
 const loginBtn = () => {
@@ -54,4 +80,5 @@ function callSignUp() {
   };
   userInfo.signUp(userData.email, userData.password);
 }
+
 </script>
