@@ -12,6 +12,8 @@
           placeholder="Full Name"
           autocomplete="off"
           v-model="input.Name"
+          @keyup="validateNameInput"
+          @blur="validateNameInput"
         />
       </label>
       <h4 v-if="errors.name">{{ errors.name }}</h4>
@@ -21,7 +23,8 @@
           placeholder="Email"
           autocomplete="on"
           v-model="input.Email"
-
+          @keyup="validateEmailInput"
+          @blur="validateEmailInput"
         />
       </label>
       <h4 v-if="errors.email">{{ errors.email }}</h4>
@@ -32,7 +35,8 @@
           placeholder="New Password"
           id="register-password"
           v-model="input.Password"
-
+          @keyup="validatePasswordInput"
+          @blur="validatePasswordInput"
         />
       </label>
       <h4 v-if="errors.password">{{ errors.password }}</h4>
@@ -43,7 +47,8 @@
           id="password-Confirm"
           placeholder="Confirm your Password"
           v-model="input.ConfirmPass"
-
+          @keyup="validatePassConfirm"
+          @blur="validatePassConfirm"
         />
       </label>
       <h4 v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</h4>
