@@ -8,10 +8,18 @@ export const taskStore = defineStore(
   'tasks',
   () => {
     const currentTask = ref([]);
+    const filterTask = ref([]);
     const fetchTasks = async (userId) => {
       const { data, error } = await supabase.from('tasks').select('*').eq('user_id', userId).order('id', { ascending: false });
       // console.log(`fetch ${data}`);
       if (data) currentTask.value = data;
+      if (error) throw error;
+    };
+    const fetchTaskFilter = async (userId, filterBy, filterValue) => {
+      const { data, error } = await supabase.from('tasks').select('*').eq('user_id', userId).eq(filterBy, filterValue)
+        .order('id', { ascending: false });
+      // console.log(`fetch ${data}`);
+      if (data) filterTask.value = data;
       if (error) throw error;
     };
     const addTask = async (userId, taskInfo) => {
@@ -21,6 +29,7 @@ export const taskStore = defineStore(
           title: taskInfo.name,
           description: taskInfo.description,
           is_complete: taskInfo.complete,
+          due_date: taskInfo.date,
         }]);
       if (error) throw error;
     };
@@ -30,25 +39,24 @@ export const taskStore = defineStore(
       if (error) throw error;
     };
     const editTask = async (userId, taskId, taskInfo) => {
-      console.log('inside store');
-      console.log(userId);
-      console.log(taskId);
-      console.log(taskInfo);
       const { error } = await supabase
         .from('tasks').update({
           title: taskInfo.name,
           description: taskInfo.description,
           is_complete: taskInfo.complete,
+          due_date: taskInfo.date,
         })
         .match({ id: taskId });
       if (error) throw error;
     };
     return {
       currentTask,
+      filterTask,
       fetchTasks,
       addTask,
       removeTask,
       editTask,
+      fetchTaskFilter,
     };
   },
 );

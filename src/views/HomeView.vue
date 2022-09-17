@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <h1>Task</h1>
-    <button @click="addWindow">ADD</button>
-    <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
-    :task=newTask :calledFrom=calledFrom />
-    <div v-for="task in taskInfo.currentTask" :key="task.id">
-      <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+  <div class="container d-flex align-content-center justify-content-center">
+    <div class="col-12 ">
+      <h1>Task</h1>
+      <button @click="addWindow">ADD</button>
+      <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
+      :task=newTask :calledFrom=calledFrom />
+      <h2>Pending</h2>
+      <div v-for="task in incompleteTask" :key="task.id">
+        <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+      </div>
+      <h2>Done</h2>
+      <div v-for="task in completeTask" :key="task.id">
+        <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 // import { ref, watch, reactive } from 'vue';
-import { ref, reactive, toRaw } from 'vue';
+import {
+  ref, reactive, toRaw, computed,
+} from 'vue';
 import { taskStore } from '@/store/tasks';
 import { userStore } from '@/store/user';
 import TaskShow from '@/components/TaskShow.vue';
@@ -41,6 +50,7 @@ function addWindow() {
   newTask.value.complete = false;
   newTask.value.name = null;
   newTask.value.description = null;
+  newTask.value.date = null;
 }
 async function modifyTaskBtn(task, selectModifier) {
   defineTask.value = toRaw(task);
@@ -70,6 +80,7 @@ function editTask(task) {
   newTask.value.name = task.title;
   newTask.value.complete = task.is_complete;
   newTask.value.description = task.description;
+  newTask.value.date = task.due_date;
   modalShow.value = true;
   calledFrom.value = 'edit'; // tells the windows where is called from
 }
@@ -81,7 +92,14 @@ async function removeTask(taskId) {
     console.log(e);
   }
 }
-
+const incompleteTask = computed(() => {
+  const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false);
+  return taskArray;
+});
+const completeTask = computed(() => {
+  const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === true);
+  return taskArray;
+});
 // refreshTask();//  on creation
 
 // watch(taskList, (currentValue, oldValue) => {
