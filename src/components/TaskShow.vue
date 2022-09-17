@@ -1,15 +1,11 @@
 <template>
-  <div class="card card-container">
-    <div class="card-header">
-      <h2>{{task.title}}</h2>
-    </div>
-    <div class="card-body">
-      <h3>{{task.description}}</h3>
-      <h4>{{task.inserted_at}}</h4>
-      <h2>{{task.is_complete}}</h2>
-      <button @click="editTask">Edit</button>
-      <button @click="removeTask">X</button>
-    </div>
+  <div class="task-show">
+    <h2>{{props.task.title}}</h2>
+    <h3>{{props.task.description}}</h3>
+    <h4>{{props.task.inserted_at}}</h4>
+    <h2>{{props.task.is_complete}}</h2>
+    <button @click="editTask">Edit</button>
+    <button @click="removeTask">X</button>
   </div>
 </template>
 
@@ -32,9 +28,4 @@ const removeTask = () => {
 </script>
 
 <style>
-.card-container{
-  width:70%;
-  display: flex;
-  align-content: center;
-}
 </style>

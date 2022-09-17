@@ -1,21 +1,36 @@
 <template>
   <div>
-    <RegisterForm v-show="changeForm" @loginBtn="selectForm"/>
-    <LogIn v-show="!changeForm" @registerBtn="selectForm"/>
+    <RegisterForm/>
+    <button @click="callSignUp">SignUp</button>
+    <LogIn/>
+    <button @click="callLogIn">LogIn</button>
     <br>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { userStore } from '@/store/user';
+// import { useRouter } from 'vue-router';
 import RegisterForm from '../components/RegisterForm.vue';
 import LogIn from '../components/LogIn.vue';
 
-const changeForm = ref(false);
-function selectForm() {
-  console.log('emit');
-  changeForm.value = !changeForm.value;// register form
-  console.log(changeForm.value);
+const userInfo = userStore();
+// const = useRouter();
+
+function callSignUp() {
+  const userData = {
+    email: 'zestefania.amundaray@gmail.com',
+    password: '123456',
+  };
+  userInfo.signUp(userData.email, userData.password);
+}
+
+function callLogIn() {
+  const userData = {
+    email: 'zestefania.amundaray@gmail.com',
+    password: '123456',
+  };
+  userInfo.LogInEmail(userData.email, userData.password);
 }
 
 // watch(userInfo, () => {
@@ -37,5 +52,11 @@ function selectForm() {
 </script>
 
 <style>
-
+.signup-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
 </style>
