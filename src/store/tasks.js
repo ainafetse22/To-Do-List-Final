@@ -30,6 +30,10 @@ export const taskStore = defineStore(
       if (error) throw error;
     };
     const editTask = async (userId, taskId, taskInfo) => {
+      console.log('inside store');
+      console.log(userId);
+      console.log(taskId);
+      console.log(taskInfo);
       const { error } = await supabase
         .from('tasks').update({
           title: taskInfo.name,

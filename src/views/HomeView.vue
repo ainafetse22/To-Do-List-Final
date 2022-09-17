@@ -1,20 +1,9 @@
 <template>
   <div class="home">
     <h1>Task</h1>
-    <h3>{{newTask.complete}}</h3>
-    <button @click="addWindow">+</button>
-    <label for="task-name">
-      <input v-model="newTask.name" type="text" id="task-name" placeholder="Add task Name" />
-    </label>
-    <label for="task-description">
-      <textarea v-model="newTask.description" id="task-description" placeholder="Description...">
-      </textarea>
-    </label>
-    <label v-show="calledFrom ==='edit' " for="complete">Complete?
-      <input type="checkbox" id="complete" v-model="newTask.complete">
-    </label>
-    <button @click="modifyTaskBtn(calledFrom)">Ok modify</button>
-    <button @click="refreshTaskBtn">Refresh</button>
+    <button @click="addWindow">ADD</button>
+    <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
+    :task=newTask :calledFrom=calledFrom />
     <div v-for="task in taskInfo.currentTask" :key="task.id">
       <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
     </div>
@@ -23,15 +12,16 @@
 
 <script setup>
 // import { ref, watch, reactive } from 'vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive, toRaw } from 'vue';
 import { taskStore } from '@/store/tasks';
 import { userStore } from '@/store/user';
 import TaskShow from '@/components/TaskShow.vue';
+import ModalTask from '@/components/ModalTask.vue';
 
 const newTask = ref({});
 const calledFrom = ref('add');
 const defineTask = {};
-// let taskIdreturn = {};
+const modalShow = ref(false);
 const taskInfo = reactive(taskStore());
 const userInfo = userStore();
 async function refreshTask() {
@@ -42,47 +32,45 @@ async function refreshTask() {
     console.log(e);
   }
 }
+refreshTask();
 function addWindow() {
+  console.log('ADD WINDOW ');
+  modalShow.value = true;
+  console.log(modalShow.value);
   calledFrom.value = 'add'; // tells the windows where is called from
   newTask.value.complete = false;
   newTask.value.name = null;
   newTask.value.description = null;
 }
-async function modifyTaskBtn(selectModifier) {
-  defineTask.name = newTask.value.name;
-  defineTask.description = newTask.value.description;
-  defineTask.complete = newTask.value.complete;
-  defineTask.id = newTask.value.id;
-  console.log(selectModifier);
+async function modifyTaskBtn(task, selectModifier) {
+  defineTask.value = toRaw(task);
   if (selectModifier === 'add') {
-    defineTask.complete = false;
+    defineTask.value.complete = false;
     try {
-      await taskInfo.addTask(userInfo.currentUser.id, defineTask);
+      await taskInfo.addTask(userInfo.currentUser.id, defineTask.value);
       refreshTask();
     } catch (e) {
       console.log(e);
     }
   } else if (selectModifier === 'edit') {
-    defineTask.complete = newTask.value.complete;
-    console.log(defineTask);
+    defineTask.value.complete = newTask.value.complete;
     try {
-      await taskInfo.editTask(userInfo.currentUser.id, defineTask.id, defineTask);
+      await taskInfo.editTask(userInfo.currentUser.id, defineTask.value.id, defineTask.value);
       refreshTask();
     } catch (e) {
       console.log(e);
     }
   }
+  modalShow.value = false;
 }
 
-function refreshTaskBtn() {
-  refreshTask();
-}
 function editTask(task) {
   // taskIdreturn = task.id;
   newTask.value.id = task.id;
   newTask.value.name = task.title;
   newTask.value.complete = task.is_complete;
   newTask.value.description = task.description;
+  modalShow.value = true;
   calledFrom.value = 'edit'; // tells the windows where is called from
 }
 async function removeTask(taskId) {
