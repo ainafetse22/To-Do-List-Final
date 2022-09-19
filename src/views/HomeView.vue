@@ -36,7 +36,6 @@ const userInfo = userStore();
 async function refreshTask() {
   try {
     await taskInfo.fetchTasks(userInfo.currentUser.id);
-    console.log(taskInfo.currentTask);
   } catch (e) {
     console.log(e);
   }
@@ -92,14 +91,32 @@ async function removeTask(taskId) {
     console.log(e);
   }
 }
+// async function filterTask(userId, filterBy, filterValue) {
+//   try {
+//     await taskInfo.fetchTaskFilter(userId, filterBy, filterValue);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+// watch(taskList, (currentValue, oldValue) => {
+//   console.log('watch');
+//   console.log(currentValue);
+//   console.log(oldValue);
+// }, { deep: true });
+
 const incompleteTask = computed(() => {
   const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false);
+  // filterTask(userInfo.currentUser.id, 'is_complete', 'false');
+  // const taskBackend = taskInfo.filterTask;
+  console.log(taskArray);
   return taskArray;
 });
+
 const completeTask = computed(() => {
   const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === true);
   return taskArray;
 });
+
 // refreshTask();//  on creation
 
 // watch(taskList, (currentValue, oldValue) => {
