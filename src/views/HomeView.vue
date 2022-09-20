@@ -1,12 +1,16 @@
 <template>
-  <div class="container d-flex align-content-center justify-content-center">
-    <div class="col-12 ">
+  <!-- <div class="container d-flex align-content-center justify-content-center"> -->
+    <div class=" container grid grid-cols-4 items-center ">
+      <div class="col-span-1">
+        <div class="col-span-1  bg-orange-300 h-screen">Side Bar</div>
+      </div>
+    <div class="col-span-3">
       <h1>Task</h1>
-      <button @click="addWindow">ADD</button>
+      <button class= "btn btn-orange btn-add" @click="addWindow"> + </button>
       <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
       :task=newTask :calledFrom=calledFrom />
       <h2>Pending</h2>
-      <div v-for="task in incompleteTask" :key="task.id">
+      <div class="w-full" v-for="task in incompleteTask" :key="task.id">
         <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
       </div>
       <h2>Done</h2>
