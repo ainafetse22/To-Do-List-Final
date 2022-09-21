@@ -14,6 +14,7 @@ import LogIn from '../components/LogIn.vue';
 const changeForm = ref(false);
 function selectForm() {
   console.log('emit');
+  console.log(changeForm.value);
   changeForm.value = !changeForm.value;// register form
   console.log(changeForm.value);
 }

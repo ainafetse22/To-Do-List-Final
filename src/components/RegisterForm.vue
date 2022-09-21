@@ -5,6 +5,7 @@
       <i class="user icon"></i>
       <input type="text" placeholder="Full Name" autocomplete="off" />
     </div> -->
+    <div >{{alertMessage}}</div>
     <form @submit.prevent class="sign-form">
       <label for="FullName">
         <input
@@ -53,7 +54,8 @@
       </label>
       <h4 v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</h4>
 
-      <button @click="callSignUp" :disabled="isSignupButtonDisabled">SignUp</button>
+      <button @click="callSignUp" >SignUp</button>
+      <h2 :disabled="isSignupButtonDisabled">-</h2>
       <h3>Already Register?</h3>
       <button @click="loginBtn">Log in</button>
     </form>
@@ -63,12 +65,13 @@
 <script setup>
 import { userStore } from '@/store/user';
 import {
-  defineEmits, computed, reactive, toRaw,
+  defineEmits, computed, reactive, toRaw, ref,
 } from 'vue';
 import useFormValidation from '../useFormValidation';
 
 const userInfo = userStore();
 const emit = defineEmits(['loginBtn']);
+const alertMessage = ref('');
 const input = reactive({
   Name: '',
   Email: '',
@@ -106,15 +109,25 @@ const validateMethod = () => {
 const loginBtn = () => {
   emit('loginBtn');
 };
-function callSignUp() {
+async function callSignUp() {
   const userData = {
     email: 'zestefania.amundaray@gmail.com',
     password: '123456',
   };
-  userInfo.signUp(userData.email, userData.password);
+  try {
+    await userInfo.signUp(userData.email, userData.password);
+    userInfo.fetchUser();
+  // if (!userInfo.currentUser()) {
+  //   console.log('error');
+  //   console.log('fuera');
+  // }
+  } catch (e) {
+    alertMessage.value = (e.message);
+  }
 }
+// computed(() =>
 const isSignupButtonDisabled = computed(() => {
-  validateMethod();
+  validateMethod(); // document.activeElement
 
   let disabled = true;
   const destrucErrors = toRaw(errors);

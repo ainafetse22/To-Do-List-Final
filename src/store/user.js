@@ -15,7 +15,6 @@ export const userStore = defineStore(
         currentUser.value = user;
         router.push({ path: '/' });
       } else {
-        console.log('user null');
         currentUser.value = null;
         router.push({ path: '/auth' });
       }
@@ -26,10 +25,7 @@ export const userStore = defineStore(
       setUser(user);
     };
     const signUp = async (email, password) => {
-      console.log('register');
-      console.log(email);
-      console.log(password);
-      const { user, error } = await supabase.auth.signUp({
+      const { data: user, error } = await supabase.auth.signUp({
         email,
         password,
       });

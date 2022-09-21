@@ -1,4 +1,4 @@
-<template>
+<template class="container">
   <NavigationBar />
   <router-view/>
 </template>
@@ -7,6 +7,7 @@
 // import { useRouter } from 'vue-router';
 import { userStore } from '@/store/user';
 import NavigationBar from './components/NavigationBar.vue';
+import './css/output.css'; // Here
 // import { computed, ref } from 'vue';
 
 // const router = useRouter();
