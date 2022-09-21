@@ -1,22 +1,27 @@
 <template>
   <!-- <div class="container d-flex align-content-center justify-content-center"> -->
-    <div class=" container grid grid-cols-4 items-center ">
-      <div class="col-span-1">
-        <div class="col-span-1  bg-orange-300 h-screen">Side Bar</div>
-      </div>
-    <div class="col-span-3">
-      <h1>Task</h1>
+    <div class="w-full container grid grid-cols-4 items-center ">
       <button class= "btn btn-orange btn-add" @click="addWindow"> + </button>
-      <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
-      :task=newTask :calledFrom=calledFrom />
-      <h2>Pending</h2>
-      <div class="w-full" v-for="task in incompleteTask" :key="task.id">
-        <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+      <div class="col-span-1 h-full" >
+        <div class="bg-orange-600 h-full mr-6">Side Bar</div>
       </div>
-      <h2>Done</h2>
-      <div v-for="task in completeTask" :key="task.id">
-        <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
-      </div>
+      <div class="col-span-3 lg:flex lg:flex-row ">
+        <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
+        :task=newTask :calledFrom=calledFrom />
+        <div class="rounded-2xl bg-gray-900 mr-6 lg:w-1/2">
+          <h2 class="text-white text-start ml-5 text-xl lg:text-3xl">PENDING TASK</h2>
+          <div class="flex flex-col mb-20 "
+             v-for="task in incompleteTask" :key="task.id">
+            <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-gray-600 text-xl mr-6 lg:text-3xl lg:w-1/2">
+          <h2 class="text-white text-start ml-5 text-xl lg:text-3xl">Done TASK</h2>
+          <div class="flex flex-col mb-20 "
+             v-for="task in completeTask" :key="task.id">
+            <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
+          </div>
+        </div>
     </div>
   </div>
 </template>
