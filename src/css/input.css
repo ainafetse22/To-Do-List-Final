@@ -11,7 +11,11 @@
         @apply text-sm shadow transition ease-in duration-200 font-medium text-center rounded text-rose-100 bg-orange-600 hover:bg-orange-300;
     }
     .btn-add{
-        @apply fixed bottom-10 text-2xl rounded-full 
+        @apply fixed text-2xl rounded-full 
+    }
+    .btn-add-right{
+        bottom: 10px;
+        right : 10px;
     }
     .card {
          @apply block rounded-lg shadow-lg bg-white max-w-sm text-center
@@ -27,6 +31,25 @@
     }
     .fit-content{
         overflow-wrap: break-word;
+    }
+    .btn-ok{
+        @apply text-white  bg-gray-900 hover:bg-orange-600
+        focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg
+        text-sm px-5 py-2.5 text-center w-20
+         dark:focus:ring-blue-800
+    }
+    .modal-position{
+        /* position:absolute; */
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .form-input-login{
+       @apply bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
+         rounded-lg focus:ring-primary-600
+        focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+         dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+         dark:focus:border-blue-500
     }
     /* class="flex items-center rounded-lg bg-[#FF7308] px-4 py-2.5 text-xl font-bold text-white hover:bg-[#E56707] */
 }
