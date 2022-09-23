@@ -1,10 +1,17 @@
 <template>
-  <div class="field">
-    <h1>Log In</h1>
+  <div  class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <div class="w-full bg-white rounded-lg shadow dark:border
+    md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="flex text-start text-xl font-bold leading-tight
+              tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  Sign in to your account
+              </h1>
     <form @submit.prevent class="sign-form">
       <label for="email-log">
         <input type="email" placeholder="Email"
           autocomplete="on"
+          class="form-input-login"
           v-model="input.Email"
           @keyup="validateEmailInput"
           @blur="validateEmailInput"/>
@@ -13,6 +20,7 @@
       <label for="password">
         <input type="password"
         placeholder="Password"
+        class="form-input-login"
         id="password"
         v-model="input.Password"
         @keyup="validatePasswordInput"
@@ -20,11 +28,18 @@
         />
         </label>
       <h4 v-if="errors.password">{{ errors.password }}</h4>
-      <button @click="callLogIn" >LogIn</button>
+      <button class="btn-ok mt-6" @click="callLogIn" >LogIn</button>
       <h5 :disabled="isLogInButtonDisabled">-</h5>
-      <h3>Don't Have an account?</h3>
-      <button @click="registerBtn">Register</button>
+      <div class="flex flex-row justify-between">
+        <p class="text-sm font-light text-gray-500
+        dark:text-gray-400">Don't Have an account yet?</p>
+        <button class="text-blue-800
+       font-medium text-primary-600 hover:underline dark:text-primary-500"
+      @click="registerBtn">Register</button>
+      </div>
     </form>
+  </div>
+  </div>
   </div>
 </template>
 
