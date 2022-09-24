@@ -2,7 +2,10 @@
     <div class="w-full container grid grid-cols-4 items-center ">
       <button class= "btn btn-orange btn-add btn-add-right" @click="addWindow"> + </button>
       <div class="col-span-1 h-full" >
-        <div class="bg-orange-600 h-full mr-6">Side Bar</div>
+        <div class="bg-orange-600 h-full mr-6">
+          <SearchBar @editTask="editTask"></SearchBar>
+        </div>
+
       </div>
       <div class="col-span-3 lg:flex lg:flex-row ">
         <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
@@ -34,6 +37,7 @@ import { taskStore } from '@/store/tasks';
 import { userStore } from '@/store/user';
 import TaskShow from '@/components/TaskShow.vue';
 import ModalTask from '@/components/ModalTask.vue';
+import SearchBar from '@/components/SearchBar.vue';
 
 const newTask = ref({});
 const calledFrom = ref('add');
@@ -83,6 +87,7 @@ async function modifyTaskBtn(task, selectModifier) {
 
 function editTask(task) {
   // taskIdreturn = task.id;
+  console.log(task);
   newTask.value.id = task.id;
   newTask.value.name = task.title;
   newTask.value.complete = task.is_complete;
@@ -116,7 +121,6 @@ const incompleteTask = computed(() => {
   const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false);
   // filterTask(userInfo.currentUser.id, 'is_complete', 'false');
   // const taskBackend = taskInfo.filterTask;
-  console.log(taskArray);
   return taskArray;
 });
 
