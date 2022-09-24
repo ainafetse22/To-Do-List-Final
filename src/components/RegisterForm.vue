@@ -1,6 +1,12 @@
 <template>
-  <div class="field">
-    <h1>Register</h1>
+  <div  class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <div class="w-full bg-white rounded-lg shadow dark:border
+    md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-xl text-start flex font-bold leading-tight
+              tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  Create an Account
+              </h1>
     <!-- <div class="ui left icon input big">
       <i class="user icon"></i>
       <input type="text" placeholder="Full Name" autocomplete="off" />
@@ -12,6 +18,7 @@
           type="text"
           placeholder="Full Name"
           autocomplete="off"
+          class="form-input-login"
           v-model="input.Name"
           @keyup="validateNameInput"
           @blur="validateNameInput"
@@ -23,6 +30,7 @@
           type="email"
           placeholder="Email"
           autocomplete="on"
+          class="form-input-login"
           v-model="input.Email"
           @keyup="validateEmailInput"
           @blur="validateEmailInput"
@@ -35,6 +43,7 @@
           type="password"
           placeholder="New Password"
           id="register-password"
+          class="form-input-login"
           v-model="input.Password"
           @keyup="validatePasswordInput"
           @blur="validatePasswordInput"
@@ -46,6 +55,7 @@
         <input
           type="password"
           id="password-Confirm"
+          class="form-input-login"
           placeholder="Confirm your Password"
           v-model="input.ConfirmPass"
           @keyup="validatePassConfirm"
@@ -54,11 +64,18 @@
       </label>
       <h4 v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</h4>
 
-      <button @click="callSignUp" >SignUp</button>
+      <button class="btn-ok mt-6" @click="callSignUp" >SignUp</button>
       <h2 :disabled="isSignupButtonDisabled">-</h2>
-      <h3>Already Register?</h3>
-      <button @click="loginBtn">Log in</button>
+      <div class="flex flex-row justify-between">
+        <p class="text-sm font-light text-gray-500
+        dark:text-gray-400">Already Register?</p>
+        <button class="text-blue-800
+       font-medium text-primary-600 hover:underline dark:text-primary-500"
+        @click="loginBtn">Log in</button>
+      </div>
     </form>
+  </div>
+  </div>
   </div>
 </template>
 

@@ -1,7 +1,6 @@
 <template>
-  <!-- <div class="container d-flex align-content-center justify-content-center"> -->
     <div class="w-full container grid grid-cols-4 items-center ">
-      <button class= "btn btn-orange btn-add" @click="addWindow"> + </button>
+      <button class= "btn btn-orange btn-add btn-add-right" @click="addWindow"> + </button>
       <div class="col-span-1 h-full" >
         <div class="bg-orange-600 h-full mr-6">Side Bar</div>
       </div>
@@ -9,14 +8,14 @@
         <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
         :task=newTask :calledFrom=calledFrom />
         <div class="rounded-2xl bg-gray-900 mr-6 lg:w-1/2">
-          <h2 class="text-white text-start ml-5 text-xl lg:text-3xl">PENDING TASK</h2>
+          <h2 class="text-white text-start ml-5 lg:mb-6 text-xl lg:text-3xl">PENDING TASK</h2>
           <div class="flex flex-col mb-20 "
              v-for="task in incompleteTask" :key="task.id">
             <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>
           </div>
         </div>
         <div class="rounded-2xl bg-gray-600 text-xl mr-6 lg:text-3xl lg:w-1/2">
-          <h2 class="text-white text-start ml-5 text-xl lg:text-3xl">Done TASK</h2>
+          <h2 class="text-white text-start ml-5 lg:mb-6 text-xl lg:text-3xl">DONE TASK</h2>
           <div class="flex flex-col mb-20 "
              v-for="task in completeTask" :key="task.id">
             <TaskShow :task="task"  @editTask="editTask" @removeTask="removeTask"></TaskShow>

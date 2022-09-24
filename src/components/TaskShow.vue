@@ -9,21 +9,17 @@
       <h3 class="text-center text-xl font-extrabold text-gray-600">{{ task.due_date }}</h3>
       <h2 class="text-center text-4xl font-extrabold text-gray-900">{{ task.title }}</h2>
       <p class="fit-content text-center text-2xl font-extrabold text-[#FE5401]">
-          {{ task.description }}</p>
+        {{ task.description }}</p>
       <footer class="mb-10 flex-column space-between justify-center">
         <div class="flex justify-center">
-          <div class="relative inline-block w-10 mr-2 align-middle select-none transition
-           duration-200 ease-in">
-            <label
-              class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-              for="complete"
-            >
-              <input
-                class="toggle-checkbox absolute block w-6 h-6 rounded-full
-                 bg-white border-4 appearance-none cursor-pointer"
-                type="checkbox"
-                v-model="task.is_complete"
-              />
+          <div class="relative inline-block w-15 mr-2 align-middle select-none transition
+           duration-5000 ease-in">
+            <label class="toggle-label block overflow-hidden h-6 rounded-full
+            bg-gray-300 cursor-pointer"
+              for="complete">
+              <input class="toggle-checkbox absolute block w-6 h-6 rounded-full
+                 bg-white border-4 appearance-none cursor-pointer" type="checkbox"
+                  v-model="task.is_complete" />
             </label>
             <h3>Done</h3>
           </div>
@@ -31,15 +27,11 @@
         <h4 class="">Created at {{ formatTime }}</h4>
       </footer>
       <div>
-        <button
-          class="btn dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        ></button>
-        <ul class="dropdown-menu text-end">
-          <li><button class="no-style" @click="editTask">Edit</button></li>
-          <li><button class="no-style" @click="removeTask">Remove</button></li>
+        <ul class="mt-6 text-end">
+          <li><button class="hover:text-3xl hover:text-orange-600"
+            @click="editTask">Edit</button></li>
+          <li><button class="hover:text-3xl hover:text-orange-600"
+            @click="removeTask">Remove</button></li>
         </ul>
       </div>
     </section>
@@ -71,13 +63,5 @@ const removeTask = () => {
 </script>
 
 <style>
-.no-style {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
+
 </style>
