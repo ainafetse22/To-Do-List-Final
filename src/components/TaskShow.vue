@@ -3,8 +3,10 @@
   <article class="h-1/3 w-90 m-5 transform flex flex-col items-center">
     <section class="w-3/5 rotate-3 transform space-y-6 rounded-2xl
      bg-gray-100 p-6 duration-300 hover:rotate-0">
-      <div class="flex justify-end">
-        <div class="h-4 w-4 rounded-full bg-gray-900"></div>
+      <!-- <div class="flex justify-end">
+        <div class="pin-img h-20"></div>
+      </div> -->
+      <div class="pin-img h-20">
       </div>
       <h3 class="text-center text-xl font-extrabold text-gray-600">{{ task.due_date }}</h3>
       <h2 class="text-center text-4xl font-extrabold text-gray-900">{{ task.title }}</h2>

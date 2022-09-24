@@ -2,7 +2,7 @@
     <div class="w-full container grid grid-cols-4 items-center ">
       <button class= "btn btn-orange btn-add btn-add-right" @click="addWindow"> + </button>
       <div class="col-span-1 h-full" >
-        <div class="bg-orange-600 h-full mr-6">
+        <div class="bg-lime-500 h-full mr-6">
           <SearchBar @editTask="editTask"></SearchBar>
         </div>
 
