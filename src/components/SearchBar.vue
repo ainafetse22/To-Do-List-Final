@@ -38,14 +38,18 @@ const searchTask = computed(() => {
     return [];
   }
   let matches = 0;
+  console.log(searchTerm.value);
+  console.log(taskInfo.currentTask);
   // eslint-disable-next-line array-callback-return, consistent-return
   const filtered = taskInfo.currentTask.filter((task) => {
-    if (
-      task.title.toLowerCase().includes(searchTerm.value.toLowerCase())
+    if (task.title) {
+      if (
+        task.title.toLowerCase().includes(searchTerm.value.toLowerCase())
       && matches < 5
-    ) {
-      matches += 1;
-      return task;
+      ) {
+        matches += 1;
+        return task;
+      }
     }
   });
   console.log(filtered);
