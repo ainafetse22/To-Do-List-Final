@@ -10,6 +10,7 @@ export const userStore = defineStore(
   () => {
     const router = useRouter();
     const currentUser = ref(null);
+    const errorMsg = ref(null);
     const setUser = (user) => {
       if (user) {
         currentUser.value = user;
@@ -37,8 +38,14 @@ export const userStore = defineStore(
         email,
         password,
       });
-      if (error) throw error;
-      if (user) setUser(user);
+      if (error) {
+        errorMsg.value = error;
+        throw error;
+      }
+      if (user) {
+        errorMsg.value = null;
+        setUser(user);
+      }
     };
     const LogOut = async () => {
       console.log('estoy en logout');
@@ -48,6 +55,7 @@ export const userStore = defineStore(
     };
     return {
       currentUser,
+      errorMsg,
       fetchUser,
       signUp,
       LogInEmail,

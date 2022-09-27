@@ -9,27 +9,21 @@
               </h1>
     <form @submit.prevent class="sign-form">
       <label for="email-log">
-        <input type="email" placeholder="Email"
+        <input type="text" placeholder="Email"
           autocomplete="on"
           class="form-input-login"
-          v-model="input.Email"
-          @keyup="validateEmailInput"
-          @blur="validateEmailInput"/>
+          v-model="input.Email"/>
         </label>
-      <h4 v-if="errors.email">{{ errors.email }}</h4>
+      <h4 v-if="showErrors">{{ errors.email }}</h4>
       <label for="password">
         <input type="password"
         placeholder="Password"
         class="form-input-login"
         id="password"
-        v-model="input.Password"
-        @keyup="validatePasswordInput"
-        @blur="validatePasswordInput"
-        />
+        v-model="input.Password"/>
         </label>
-      <h4 v-if="errors.password">{{ errors.password }}</h4>
-      <button class="btn-ok mt-6" @click="callLogIn" >LogIn</button>
-      <h5 :disabled="isLogInButtonDisabled">-</h5>
+      <h4 v-if="showErrors">{{ errors.password }}</h4>
+      <button class="btn-ok mt-6 mb-6" @click="callLogIn" >LogIn</button>
       <div class="flex flex-row justify-between">
         <p class="text-sm font-light text-gray-500
         dark:text-gray-400">Don't Have an account yet?</p>
@@ -38,6 +32,8 @@
       @click="registerBtn">Register</button>
       </div>
     </form>
+    <AlertMessage v-if="userInfo.errorMsg" :message="userInfo.errorMsg.message" txtType="bg-red-400
+    shadow-[0_0_20px_#ff444477]" />
   </div>
   </div>
   </div>
@@ -46,11 +42,13 @@
 <script setup>
 import { userStore } from '@/store/user';
 import {
-  defineEmits, reactive, computed, toRaw,
+  defineEmits, reactive, toRaw, ref,
 } from 'vue';
 import useFormValidation from '../useFormValidation';
+import AlertMessage from './AlertMessage.vue';
 
 const userInfo = userStore();
+const showErrors = ref(false);
 const emit = defineEmits(['registerBtn']);
 const input = reactive({
   Email: '',
@@ -64,13 +62,7 @@ const {
 const registerBtn = () => {
   emit('registerBtn');
 };
-function callLogIn() {
-  const userData = {
-    email: 'zestefania.amundaray@gmail.com',
-    password: '123456',
-  };
-  userInfo.LogInEmail(userData.email, userData.password);
-}
+
 const validateEmailInput = () => {
   validateEmailField('email', input.Email);
 };
@@ -78,26 +70,43 @@ const validatePasswordInput = () => {
   validatePasswordField('password', input.Password);
 };
 const validateMethod = () => {
+  errors.name = '';
   validateEmailInput();
   validatePasswordInput();
 };
-const isLogInButtonDisabled = computed(() => {
+const errorsEnable = () => {
   validateMethod();
 
-  let disabled = true;
+  let ifErrors = true;
   const destrucErrors = toRaw(errors);
   if (input.Email && input.Password) {
-    disabled = false;
+    ifErrors = false;
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in destrucErrors) {
       // console.log(destrucErrors[key]);
-      if (destrucErrors[key]) { disabled = true; }
+      if (destrucErrors[key]) { ifErrors = true; }
     }
-    console.log('disable value');
-    console.log(disabled);
   }
-  return disabled;
-});
+  return ifErrors;
+};
+function hideError() {
+  setTimeout(() => {
+    userInfo.errorMsg = null;
+  }, 5000);
+}
+function callLogIn() {
+  showErrors.value = errorsEnable();
+  if (showErrors.value === false) {
+    console.log('no errors');
+    const userData = {
+      email: input.Email,
+      password: '123456',
+    };
+    userInfo.LogInEmail(input.Email, userData.password);
+    hideError();
+  }
+}
+
 </script>
 
 <style>
