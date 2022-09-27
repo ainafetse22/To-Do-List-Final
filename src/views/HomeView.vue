@@ -2,8 +2,18 @@
     <div class="w-full container grid grid-cols-4 items-center ">
       <button class= "btn btn-orange btn-add btn-add-right" @click="addWindow"> + </button>
       <div class="col-span-1 h-full" >
-        <div class="bg-orange-600 h-full mr-6">
+        <div class="bg-lime-500 h-full mr-6">
           <SearchBar @editTask="editTask"></SearchBar>
+          <h2>Dashboards</h2>
+          <ul>
+          <li @click="selectList('*')" @keyup="selectList(list)">
+          All</li>
+          <li v-for="list in taskInfo.Dashboards" :key="list"
+              @click="selectList(list)" @keyup="selectList(list)">
+              {{ list }}
+          </li>
+          </ul>
+          <!-- <button class="btn" @click="">+</button> -->
         </div>
 
       </div>
@@ -45,6 +55,7 @@ const defineTask = {};
 const modalShow = ref(false);
 const taskInfo = reactive(taskStore());
 const userInfo = userStore();
+const filterDashboard = ref('*');
 async function refreshTask() {
   try {
     await taskInfo.fetchTasks(userInfo.currentUser.id);
@@ -52,7 +63,15 @@ async function refreshTask() {
     console.log(e);
   }
 }
+async function refreshDashboards() {
+  try {
+    await taskInfo.fetchDashboards(userInfo.currentUser.id);
+  } catch (e) {
+    console.log(e);
+  }
+}
 refreshTask();
+refreshDashboards();
 function addWindow() {
   console.log('ADD WINDOW ');
   modalShow.value = true;
@@ -104,6 +123,9 @@ async function removeTask(taskId) {
     console.log(e);
   }
 }
+function selectList(list) {
+  filterDashboard.value = list;
+}
 // async function filterTask(userId, filterBy, filterValue) {
 //   try {
 //     await taskInfo.fetchTaskFilter(userId, filterBy, filterValue);
@@ -118,14 +140,26 @@ async function removeTask(taskId) {
 // }, { deep: true });
 
 const incompleteTask = computed(() => {
-  const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false);
+  let taskArray;
+  if (filterDashboard.value === '*') {
+    taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false);
+  } else {
+    taskArray = taskInfo.currentTask.filter((task) => task.is_complete === false
+  && task.dashboard === filterDashboard.value);
+  }
   // filterTask(userInfo.currentUser.id, 'is_complete', 'false');
   // const taskBackend = taskInfo.filterTask;
   return taskArray;
 });
 
 const completeTask = computed(() => {
-  const taskArray = taskInfo.currentTask.filter((task) => task.is_complete === true);
+  let taskArray;
+  if (filterDashboard.value === '*') {
+    taskArray = taskInfo.currentTask.filter((task) => task.is_complete === true);
+  } else {
+    taskArray = taskInfo.currentTask.filter((task) => task.is_complete === true
+   && task.dashboard === filterDashboard.value);
+  }
   return taskArray;
 });
 

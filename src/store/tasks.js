@@ -9,6 +9,7 @@ export const taskStore = defineStore(
   () => {
     const currentTask = ref([]);
     const filterTask = ref([]);
+    const Dashboards = ref([]);
     const fetchTasks = async (userId) => {
       const { data, error } = await supabase.from('tasks').select('*').eq('user_id', userId).order('id', { ascending: false });
       // console.log(`fetch ${data}`);
@@ -21,6 +22,20 @@ export const taskStore = defineStore(
       // console.log(`fetch ${data}`);
       if (data) filterTask.value = data;
       if (error) throw error;
+    };
+    const fetchDashboards = async (userId) => {
+      const { data, error } = await supabase.from('tasks').select('dashboard').eq('user_id', userId)
+        .order('id', { ascending: false });
+      if (error) throw error;
+      if (data) {
+        // eslint-disable-next-line max-len
+        const dashboardList = [];
+        data.forEach((task) => {
+          dashboardList.push(task.dashboard);
+          return dashboardList;
+        });
+        Dashboards.value = [...new Set(dashboardList)];
+      }
     };
     const addTask = async (userId, taskInfo) => {
       const { error } = await supabase
@@ -50,6 +65,8 @@ export const taskStore = defineStore(
       if (error) throw error;
     };
     return {
+      Dashboards,
+      fetchDashboards,
       currentTask,
       filterTask,
       fetchTasks,

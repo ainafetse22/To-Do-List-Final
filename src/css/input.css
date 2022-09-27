@@ -51,6 +51,10 @@
          dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
          dark:focus:border-blue-500
     }
+    .pin-img{
+        background: url('../../assets/pin.png') no-repeat right top;
+        background-size: auto 100%;
+    }
     /* class="flex items-center rounded-lg bg-[#FF7308] px-4 py-2.5 text-xl font-bold text-white hover:bg-[#E56707] */
 }
 
