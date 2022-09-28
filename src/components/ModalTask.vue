@@ -24,6 +24,9 @@
           <label for="dueDate">Due Date :
             <input id="dueDate" v-model="newTask.date" class="form-control" type="date">
           </label>
+          <label for="dashboard">Dashboard :
+            <input id="dashboard" v-model="newTask.dashboard" class="form-control" type="text">
+          </label>
           <label v-show="calledFrom ==='edit' " for="complete">Complete?
             <input type="checkbox" id="complete" v-model="newTask.complete">
           </label>

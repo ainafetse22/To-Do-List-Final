@@ -7,15 +7,14 @@
           <h2>Dashboards</h2>
           <ul>
           <li @click="selectList('*')" @keyup="selectList(list)">
-          All</li>
-          <li v-for="list in taskInfo.Dashboards" :key="list"
+          All task</li>
+          <li v-for="list in listingDashboard" :key="list"
               @click="selectList(list)" @keyup="selectList(list)">
               {{ list }}
           </li>
           </ul>
           <!-- <button class="btn" @click="">+</button> -->
         </div>
-
       </div>
       <div class="col-span-3 lg:flex lg:flex-row ">
         <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
@@ -73,14 +72,13 @@ async function refreshDashboards() {
 refreshTask();
 refreshDashboards();
 function addWindow() {
-  console.log('ADD WINDOW ');
   modalShow.value = true;
-  console.log(modalShow.value);
   calledFrom.value = 'add'; // tells the windows where is called from
   newTask.value.complete = false;
   newTask.value.name = null;
   newTask.value.description = null;
   newTask.value.date = null;
+  newTask.value.dashboard = null;
 }
 async function modifyTaskBtn(task, selectModifier) {
   defineTask.value = toRaw(task);
@@ -106,12 +104,12 @@ async function modifyTaskBtn(task, selectModifier) {
 
 function editTask(task) {
   // taskIdreturn = task.id;
-  console.log(task);
   newTask.value.id = task.id;
   newTask.value.name = task.title;
   newTask.value.complete = task.is_complete;
   newTask.value.description = task.description;
   newTask.value.date = task.due_date;
+  newTask.value.dashboard = task.dashboard;
   modalShow.value = true;
   calledFrom.value = 'edit'; // tells the windows where is called from
 }
@@ -126,6 +124,11 @@ async function removeTask(taskId) {
 function selectList(list) {
   filterDashboard.value = list;
 }
+
+const listingDashboard = computed(() => {
+  refreshDashboards();
+  return taskInfo.Dashboards;
+});
 // async function filterTask(userId, filterBy, filterValue) {
 //   try {
 //     await taskInfo.fetchTaskFilter(userId, filterBy, filterValue);

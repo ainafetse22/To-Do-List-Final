@@ -29,12 +29,12 @@ export const taskStore = defineStore(
       if (error) throw error;
       if (data) {
         // eslint-disable-next-line max-len
-        const dashboardList = [];
+        const dashboardList = ref([]);
         data.forEach((task) => {
-          dashboardList.push(task.dashboard);
+          dashboardList.value.push(task.dashboard);
           return dashboardList;
         });
-        Dashboards.value = [...new Set(dashboardList)];
+        Dashboards.value = [...new Set(dashboardList.value)];
       }
     };
     const addTask = async (userId, taskInfo) => {
@@ -45,6 +45,7 @@ export const taskStore = defineStore(
           description: taskInfo.description,
           is_complete: taskInfo.complete,
           due_date: taskInfo.date,
+          dashboard: taskInfo.dashboard,
         }]);
       if (error) throw error;
     };
@@ -60,6 +61,7 @@ export const taskStore = defineStore(
           description: taskInfo.description,
           is_complete: taskInfo.complete,
           due_date: taskInfo.date,
+          dashboard: taskInfo.dashboard,
         })
         .match({ id: taskId });
       if (error) throw error;
