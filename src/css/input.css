@@ -11,7 +11,7 @@
         @apply text-sm shadow transition ease-in duration-200 font-medium text-center rounded text-rose-100 bg-orange-600 hover:bg-orange-300;
     }
     .btn-add{
-        @apply fixed text-2xl rounded-full 
+        @apply fixed text-2xl rounded-full
     }
     .btn-add-right{
         bottom: 10px;
