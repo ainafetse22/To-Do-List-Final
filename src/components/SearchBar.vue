@@ -1,18 +1,25 @@
 <template>
-<div>
+<div class="relative w-full pl-6">
     <label for="search">
-        <input type="text" class=" bg-gray-50 border mt-6 border-gray-300 text-gray-900 sm:text-sm
-         rounded-lg block w-70 p-2.5 dark:bg-gray-700 dark:border-gray-600
-         dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-         dark:focus:border-blue-500" id="search"
-        v-model="searchTerm" placeholder="search task...">
+        <input type="text" class="w-full bg-gray-50 border border-gray-300
+         text-gray-900 sm:text-sm
+         rounded-lg block p-2.5" id="search"
+        v-model="searchTerm" placeholder="search a task...">
     </label>
+    <div class="absolute bg-orange-600 right-0 z-10 w-3/4 origin-top-right
+     rounded-md shadow-lg ring-1 ring-black ring-opacity-5
+      focus:outline-none" role="menu" aria-orientation="vertical"
+      aria-labelledby="menu-button" tabindex="-1">
+    <!-- <div class="py-1" role="none"> -->
     <ul v-if="searchTask">
-    <li v-for="task in searchTask" :key="task.title"
-    @click="selectTask(task)" @keyup="selectTask(task.title)">
-        {{ task.title }}
-    </li>
+      <li class="text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+      v-for="task in searchTask" :key="task.title"
+      @click="selectTask(task)" @keyup="selectTask(task.title)">
+          {{ task.title }}
+      </li>
     </ul>
+  </div>
+    <!-- </div> -->
 </div>
 </template>
 
@@ -54,7 +61,6 @@ const searchTask = computed(() => {
       }
     }
   });
-  console.log(filtered);
   return filtered;
 });
 const emit = defineEmits(['editTask']);
@@ -62,6 +68,7 @@ const selectTask = (task) => {
   selectedTask.value = task;
   searchTerm.value = '';
   emit('editTask', task);
+  taskInfo.setSearch(task);
 };
 
 </script>

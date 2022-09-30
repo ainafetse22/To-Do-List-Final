@@ -1,6 +1,6 @@
-<template class="container">
+<template class="container w-full">
   <NavigationBar />
-  <router-view/>
+  <router-view />
 </template>
 
 <script setup>
@@ -8,6 +8,7 @@
 import { userStore } from '@/store/user';
 import NavigationBar from './components/NavigationBar.vue';
 import './css/output.css'; // Here
+
 // import { computed, ref } from 'vue';
 
 // const router = useRouter();
@@ -48,7 +49,4 @@ nav a {
   color: #2c3e50;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

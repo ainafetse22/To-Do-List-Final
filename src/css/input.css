@@ -52,7 +52,7 @@
          dark:focus:border-blue-500
     }
     .pin-img{
-        background: url('../../assets/pin.png') no-repeat right top;
+        background: url('../../assets/pin.jpeg') no-repeat right top;
         background-size: auto 100%;
     }
     li{

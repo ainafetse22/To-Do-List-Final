@@ -1,5 +1,5 @@
 // /store/task.js
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { defineStore } from 'pinia';
 import supabase from '../supabase/index';
 
@@ -7,9 +7,14 @@ import supabase from '../supabase/index';
 export const taskStore = defineStore(
   'tasks',
   () => {
+    const searchTask = reactive({});
     const currentTask = ref([]);
     const filterTask = ref([]);
     const Dashboards = ref([]);
+    const setSearch = (value) => {
+      searchTask.value = value;
+    };
+    const getSearch = () => searchTask;
     const fetchTasks = async (userId) => {
       const { data, error } = await supabase.from('tasks').select('*').eq('user_id', userId).order('id', { ascending: false });
       // console.log(`fetch ${data}`);
@@ -67,6 +72,9 @@ export const taskStore = defineStore(
       if (error) throw error;
     };
     return {
+      setSearch,
+      getSearch,
+      searchTask,
       Dashboards,
       fetchDashboards,
       currentTask,
