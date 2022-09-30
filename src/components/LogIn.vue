@@ -97,10 +97,10 @@ function hideError() {
 function callLogIn() {
   showErrors.value = errorsEnable();
   if (showErrors.value === false) {
-    console.log('no errors');
+    // console.log('no errors');
     const userData = {
       email: input.Email,
-      password: '123456',
+      password: input.Password,
     };
     userInfo.LogInEmail(input.Email, userData.password);
     hideError();
