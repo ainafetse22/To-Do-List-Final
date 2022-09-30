@@ -1,8 +1,8 @@
 <template>
-<div class="relative w-full pl-6">
+<div class="relative w-11/12">
     <label for="search">
         <input type="text" class="w-full bg-gray-50 border border-gray-300
-         text-gray-900 sm:text-sm
+         text-gray-900 text-xs sm:text-sm
          rounded-lg block p-2.5" id="search"
         v-model="searchTerm" placeholder="search a task...">
     </label>
