@@ -1688,6 +1688,10 @@ li{
     margin-bottom: 1.5rem;
   }
 
+  .lg\:block {
+    display: block;
+  }
+
   .lg\:flex {
     display: flex;
   }

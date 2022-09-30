@@ -12,7 +12,7 @@
           <SearchBar v-show="userInfo.currentUser" @editTask="editTask"></SearchBar>
       </div>
       <div class="col-span-5 w-full flex flex-col items-center lg:flex-row">
-          <div :class="menuState" class="lg:w-72
+          <div :class="menuState" class="lg:w-72 lg:block
           lg:h-full lg:mt-10 w-3/4 mt-1 bg-cyan-800 text-start"
            id="navbar-default">
             <h3 class="text-white pl-2 underline">Dashboards</h3>
