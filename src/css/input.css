@@ -61,6 +61,9 @@
     .no-show{
         display:none;
     }
+    .show-modal{
+        display:block;
+    }
     .modal-height{
         min-height: 300px;
     }

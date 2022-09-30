@@ -6,13 +6,13 @@
             hover:bg-gray-100 focus:outline-none
             focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
             <span class="sr-only"></span>
-            <svg @click="hideMenu =!hideMenu" class="w-4 h-4 md:w-6 md:h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+            <svg @click="hideMenu" class="w-4 h-4 md:w-6 md:h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
       </button>
       <div class="col-span-3 lg:col-start-2 lg:flex lg:flex-row ">
           <SearchBar v-show="userInfo.currentUser" @editTask="editTask"></SearchBar>
       </div>
       <div class="col-span-5 w-full flex flex-col items-center lg:flex-row">
-          <div :class="{hidden:hideMenu}" class="lg:w-72
+          <div :class="menuState" class="lg:w-72
           lg:h-full lg:mt-10 w-3/4 mt-1 bg-cyan-800 text-start"
            id="navbar-default">
             <h3 class="text-white pl-2 underline">Dashboards</h3>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="flex flex-col items-center mt-2 md:mt-6
-        rounded-2xl w-3/4 bg-gray-600 lg:w-1/2 mb-6 ml-3">
+        rounded-2xl bg-gray-600 lg:w-1/2 mb-6 ml-3">
           <h2 class="text-white text-start ml-5 lg:mb-6 text-xl lg:text-3xl">DONE TASK</h2>
           <div class="flex w-11/12 flex-col sm:mb-20"
              v-for="task in completeTask" :key="task.id">
@@ -73,7 +73,7 @@ const modalShow = ref(false);
 const taskInfo = reactive(taskStore());
 const userInfo = userStore();
 const filterDashboard = ref('*');
-const hideMenu = ref(true);
+const menuState = ref('no-show');
 
 // watch(taskInfo.searchTask, (currentValue, oldValue) => {
 //   console.log('watch');
@@ -127,6 +127,13 @@ async function modifyTaskBtn(task, selectModifier) {
   }
   modalShow.value = false;
 }
+function hideMenu() {
+  if (menuState.value === 'show-modal') {
+    menuState.value = 'no-show';
+  } else {
+    menuState.value = 'show-modal';
+  }
+}
 
 function editTask(task) {
   // taskIdreturn = task.id;
@@ -148,7 +155,7 @@ async function removeTask(taskId) {
   }
 }
 function selectList(list) {
-  hideMenu.value = true;
+  hideMenu();
   filterDashboard.value = list;
 }
 
