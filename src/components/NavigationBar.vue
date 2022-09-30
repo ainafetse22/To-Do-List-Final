@@ -5,7 +5,7 @@
       <img src="../../assets/logo.jpeg" class="h-10 sm:h-15" alt="Doit" />
         <ul class="flex rounded-lg
         flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-        <router-link class=" invisible md:visible py-2 pr-4 pl-3 rounded bg-transparent
+        <router-link class=" invisible md:visible py-2 lg:pr-4 lg:pl-3 rounded bg-transparent
           text-blue-700"
           v-show="userInfo.currentUser" to="/" aria-current="page">Home</router-link>
         <router-link class="py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent

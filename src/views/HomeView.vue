@@ -33,9 +33,9 @@
           </div>
         <ModalTask  v-if="modalShow" @close="modalShow = false" @modifyTaskBtn="modifyTaskBtn"
         :task=newTask :calledFrom=calledFrom />
-        <section class="lg:w-3/4 flex mx-6">
+        <section class="w-3/4 flex flex-col lg:flex-row mx-6">
         <div class="flex flex-col mt-2 md:mt-6 items-center
-        rounded-2xl w-3/4 bg-gray-900 lg:w-1/2 mb-6 mr-3">
+        rounded-2xl w-full bg-gray-900 lg:w-1/2 mb-6 mr-3">
           <h2 class="text-white text-start ml-5 lg:mb-6 text-xl lg:text-3xl">PENDING TASK</h2>
           <div class="flex w-11/12 flex-col sm:mb-20 "
              v-for="task in incompleteTask" :key="task.id">
