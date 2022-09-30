@@ -61,6 +61,9 @@
     .no-show{
         display:none;
     }
+    .modal-height{
+        min-height: 300px;
+    }
     /* class="flex items-center rounded-lg bg-[#FF7308] px-4 py-2.5 text-xl font-bold text-white hover:bg-[#E56707] */
 }
 
