@@ -1,5 +1,5 @@
 # to-do-list-ih
-
+# create using pinia vue 3 and tailwind css
 ## Project setup
 ```
 npm install
