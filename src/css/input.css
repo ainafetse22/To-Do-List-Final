@@ -11,11 +11,11 @@
         @apply text-sm shadow transition ease-in duration-200 font-medium text-center rounded text-rose-100 bg-orange-600 hover:bg-orange-300;
     }
     .btn-add{
-        @apply fixed text-2xl rounded-full 
+        @apply fixed text-2xl rounded-full
     }
     .btn-add-right{
-        bottom: 10px;
-        right : 10px;
+        bottom: 20px;
+        right : 20px;
     }
     .card {
          @apply block rounded-lg shadow-lg bg-white max-w-sm text-center
@@ -52,8 +52,20 @@
          dark:focus:border-blue-500
     }
     .pin-img{
-        background: url('../../assets/pin.png') no-repeat right top;
+        background: url('../../assets/pin.jpeg') no-repeat right top;
         background-size: auto 100%;
+    }
+    li{
+        cursor: pointer;
+    }
+    .no-show{
+        display:none;
+    }
+    .show-modal{
+        display:block;
+    }
+    .modal-height{
+        min-height: 300px;
     }
     /* class="flex items-center rounded-lg bg-[#FF7308] px-4 py-2.5 text-xl font-bold text-white hover:bg-[#E56707] */
 }

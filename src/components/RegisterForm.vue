@@ -24,7 +24,7 @@
           @blur="validateNameInput"
         />
       </label>
-      <h4 v-if="errors.name">{{ errors.name }}</h4>
+      <h4 v-if="showErrors">{{ errors.name }}</h4>
       <label for="email">
         <input
           type="email"
@@ -36,7 +36,7 @@
           @blur="validateEmailInput"
         />
       </label>
-      <h4 v-if="errors.email">{{ errors.email }}</h4>
+      <h4 v-if="showErrors">{{ errors.email }}</h4>
 
       <label for="password">
         <input
@@ -49,7 +49,7 @@
           @blur="validatePasswordInput"
         />
       </label>
-      <h4 v-if="errors.password">{{ errors.password }}</h4>
+      <h4 v-if="showErrors">{{ errors.password }}</h4>
 
       <label for="passwordConfirmation">
         <input
@@ -62,7 +62,7 @@
           @blur="validatePassConfirm"
         />
       </label>
-      <h4 v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</h4>
+      <h4 v-if="showErrors">{{ errors.passwordConfirm }}</h4>
 
       <button class="btn-ok mt-6" @click="callSignUp" >SignUp</button>
       <h2 :disabled="isSignupButtonDisabled">-</h2>
@@ -75,6 +75,8 @@
       </div>
     </form>
   </div>
+  <AlertMessage v-if="userInfo.errorMsg" :message="userInfo.errorMsg.message" txtType="bg-red-400
+    shadow-[0_0_20px_#ff444477]" />
   </div>
   </div>
 </template>
@@ -82,11 +84,12 @@
 <script setup>
 import { userStore } from '@/store/user';
 import {
-  defineEmits, computed, reactive, toRaw, ref,
+  defineEmits, reactive, toRaw, ref,
 } from 'vue';
 import useFormValidation from '../useFormValidation';
 
 const userInfo = userStore();
+const showErrors = ref(false);
 const emit = defineEmits(['loginBtn']);
 const alertMessage = ref('');
 const input = reactive({
@@ -126,37 +129,64 @@ const validateMethod = () => {
 const loginBtn = () => {
   emit('loginBtn');
 };
-async function callSignUp() {
-  const userData = {
-    email: 'zestefania.amundaray@gmail.com',
-    password: '123456',
-  };
-  try {
-    await userInfo.signUp(userData.email, userData.password);
-    userInfo.fetchUser();
-  // if (!userInfo.currentUser()) {
-  //   console.log('error');
-  //   console.log('fuera');
-  // }
-  } catch (e) {
-    alertMessage.value = (e.message);
-  }
-}
-// computed(() =>
-const isSignupButtonDisabled = computed(() => {
-  validateMethod(); // document.activeElement
 
-  let disabled = true;
+const errorsEnable = () => {
+  validateMethod();
+  let ifErrors = true;
   const destrucErrors = toRaw(errors);
   if (input.Name && input.Email && input.Password && input.ConfirmPass) {
-    disabled = false;
+    ifErrors = false;
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in destrucErrors) {
-      console.log(destrucErrors[key]);
-      if (destrucErrors[key]) { disabled = true; }
+      // console.log(destrucErrors[key]);
+      if (destrucErrors[key]) { ifErrors = true; }
     }
-    console.log(disabled);
+    // console.log(disabled);
   }
-  return disabled;
-});
+  return ifErrors;
+};
+function hideError() {
+  setTimeout(() => {
+    userInfo.errorMsg = null;
+  }, 5000);
+}
+async function callSignUp() {
+  showErrors.value = errorsEnable();
+  if (showErrors.value === false) {
+    const userData = {
+      email: input.Email,
+      password: input.Password,
+    };
+    try {
+      await userInfo.signUp(userData.email, userData.password);
+      userInfo.fetchUser();
+      hideError();
+    // if (!userInfo.currentUser()) {
+    //   console.log('error');
+    //   console.log('fuera');
+    // }
+    } catch (e) {
+      alertMessage.value = (e.message);
+    }
+  }
+}
+
+// computed(() =>
+// const isSignupButtonDisabled = computed(() => {
+// const validateMethod = () => { // document.activeElement
+
+//   let disabled = true;
+//   const destrucErrors = toRaw(errors);
+//   if (input.Name && input.Email && input.Password && input.ConfirmPass) {
+//     disabled = false;
+//     // eslint-disable-next-line no-restricted-syntax, guard-for-in
+//     for (const key in destrucErrors) {
+//       console.log(destrucErrors[key]);
+//       if (destrucErrors[key]) { disabled = true; }
+//     }
+//     console.log(disabled);
+//   }
+//   return disabled;
+// }
+// );
 </script>

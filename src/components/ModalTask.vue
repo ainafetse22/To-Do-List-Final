@@ -2,9 +2,9 @@
   <div tabindex="-1" class="overflow-y-auto
  overflow-x-hidden fixed z-50 h-full w-full inset-0">
     <div class="opacity-90 fixed bg-gray-500 w-full h-full"></div>
-    <div class="relative modal-position p-4 w-3/4 max-w-2xl h-1/2">
+    <div class="absolute p-4 modal-height w-3/4 max-w-2xl lg:h-1/2">
       <!-- Modal content -->
-      <div class="absolute w-full h-3/4 bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="absolute w-full bg-white rounded-lg shadow dark:bg-gray-700">
         <div class="flex justify-around items-start p-4 rounded-t">
           <label for="task-name" class="flex w-full items-start">
             <input class="text-xl w-9/12 font-semibold text-gray-900
@@ -15,14 +15,18 @@
            hover:text-gray-900"><span>&times;</span>
           </button>
         </div>
-        <div class="flex flex-col p-4 space-y-6 border-t border-orange-500">
+        <div class="flex flex-col p-4 space-y-4 border-t border-orange-500">
           <label for="task-description">
-            <textarea class=" w-full" v-model="newTask.description"
+            <textarea class=" w-full h-30 border border-orange-500" v-model="newTask.description"
             id="task-description" placeholder="Description...">
           </textarea>
           </label>
           <label for="dueDate">Due Date :
             <input id="dueDate" v-model="newTask.date" class="form-control" type="date">
+          </label>
+          <label for="dashboard">Dashboard :
+            <input id="dashboard" v-model="newTask.dashboard" class="form-control border
+            " type="text">
           </label>
           <label v-show="calledFrom ==='edit' " for="complete">Complete?
             <input type="checkbox" id="complete" v-model="newTask.complete">
