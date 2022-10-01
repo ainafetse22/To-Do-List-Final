@@ -55,6 +55,10 @@
         background: url('../../assets/pin.jpeg') no-repeat right top;
         background-size: auto 100%;
     }
+    .heroe-img{
+        background: url('../../assets/heroe.jpeg') no-repeat right top;
+        background-size: auto 100%;
+    }
     li{
         cursor: pointer;
     }

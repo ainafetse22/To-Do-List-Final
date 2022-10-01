@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="heroe-img">
+    <!-- <img src="../../assets/heroe.jpg" class="img-size hidden lg:visible " alt="heroe"/> -->
     <RegisterForm v-show="changeForm" @loginBtn="selectForm"/>
     <LogIn v-show="!changeForm" @registerBtn="selectForm"/>
     <br>
@@ -35,5 +36,9 @@ function selectForm() {
 </script>
 
 <style>
-
+/* .img-size{
+  margin-left: auto;
+  margin-right: auto;
+  height: 500px;
+} */
 </style>
