@@ -742,6 +742,7 @@ video {
 .heroe-img{
   background: url('../../assets/heroe.jpeg') no-repeat right top;
   background-size: auto 100%;
+  background-position: center;
 }
 
 li{
