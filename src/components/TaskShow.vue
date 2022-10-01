@@ -10,7 +10,7 @@
       </div>
       <h3 class="text-center text-sm md:text-xl
       font-extrabold text-gray-600">{{ task.due_date }}</h3>
-      <h2 class="text-center truncate text-m md:text-2xl lg:text-4xl
+      <h2 class="text-center text-m md:text-2xl lg:text-2xl
       font-extrabold text-gray-900">{{ task.title }}</h2>
       <p class="fit-content w-full text-center  truncate text-sm md:text-m lg:text-xl
        font-extrabold text-[#FE5401]">
